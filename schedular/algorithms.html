@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced CPU Scheduling Visualization</title>
+    
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" >
+    <link rel="stylesheet" href="algo_styles.css">
+  </head>
+  <body>
+    <!-- Modern Glassmorphism Header -->
+    <header>
+      <nav class="nav-container">
+        <div class="logo">CPU Scheduler</div>
+        <div class="nav-links">
+          <a href="index.html" class="active">Home</a>
+          <a href="algorithms.html">Algorithms</a>
+          <a href="stimulation.html">Simulation</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section (Intro) -->
+    <section class="hero">
+      <h1 class="animate__animated animate__fadeInDown">CPU Scheduling Algorithms</h1>
+      <p class="animate__animated animate__fadeInUp">
+        Discover how modern operating systems allocate CPU time efficiently.
+      </p>
+    </section>
+
+    <!-- Intro Content (from Combined Section) -->
+    <section class="intro">
+      <h2>What is CPU Scheduling?</h2>
+      <p>
+        <strong>CPU scheduling</strong> is a method the operating system uses to choose which task or process should use the CPU at any given moment. Since the CPU can only focus on one task at a time, scheduling helps manage multiple tasks waiting to be done.
+      </p>
+      <h3>Here’s what CPU scheduling aims to achieve:</h3>
+      <ul>
+        <li><strong>Make the most of the CPU’s time:</strong> Ensure the CPU is busy rather than idle.</li>
+        <li><strong>Reduce delays:</strong> <em>Cut down waiting time</em> and <em>speed up task execution</em>.</li>
+      </ul>
+    </section>
+
+    <!-- Flowchart Section -->
+    <section class="flowchart-section">
+      <h2>Types of Algorithms</h2>
+      <img src="Algorithms_page_images/flowchart.png" alt="Flow Chart of Algorithms" />
+    </section>
+
+    <!-- Scheduling Section (Cards with Accordions) -->
+    <section class="scheduling-grid">
+      <!-- Preemptive Scheduling Card -->
+      <div class="scheduling-card" id="preemptive">
+        <h3>Preemptive Scheduling</h3>
+        <p>
+          In <strong>preemptive scheduling</strong>, the operating system can interrupt a running process and move it to the ready state when a higher‑priority process needs the CPU.
+        </p>
+        <p>
+          <strong>Algorithms based on preemptive scheduling are:</strong> Round Robin (RR), Shortest Remaining Time First (SRTF), and Priority (Preemptive).
+        </p>
+        <button class="read-more-btn" onclick="toggleReadMore('preemptive-more')">Read More</button>
+        <div class="more-content" id="preemptive-more">
+          <!-- Advantages Accordion -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Advantages</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li>Prevents any one process from monopolizing the CPU.</li>
+                <li>Improves overall responsiveness in multi-tasking systems.</li>
+                <li>Widely adopted in modern operating systems for better process management.</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Disadvantages Accordion -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Disadvantages</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li>Requires complex implementation due to frequent context switching.</li>
+                <li>Increased overhead can impact overall performance.</li>
+                <li>Risk of starvation for low‑priority processes.</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Algorithms Accordion (Nested) -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Algorithms</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>Round Robin (RR)</strong>
+                  <div class="nested-content">
+                    Round Robin assigns a fixed time quantum to each process in a cyclic order. Once the time expires, the process is moved to the back of the queue. This ensures fairness and responsiveness in time‑sharing systems, although it may lead to more context switches.
+                  </div>
+                </li>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>Shortest Remaining Time First (SRTF)</strong>
+                  <div class="nested-content">
+                    SRTF selects the process with the smallest remaining execution time. It minimizes waiting time by dynamically adjusting priorities, though frequent preemptions may introduce overhead.
+                  </div>
+                </li>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>Priority (Preemptive)</strong>
+                  <div class="nested-content">
+                    Preemptive Priority scheduling assigns the CPU based on process priority, allowing higher‑priority tasks to preempt lower ones. This benefits critical tasks but requires careful management to prevent starvation.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Non‑Preemptive Scheduling Card -->
+      <div class="scheduling-card" id="nonpreemptive">
+        <h3>Non‑Preemptive Scheduling</h3>
+        <p>
+          In <strong>non‑preemptive scheduling</strong>, a running process retains the CPU until it terminates or enters a waiting state.
+        </p>
+        <p>
+          <strong>Algorithms based on non‑preemptive scheduling are:</strong> First Come First Serve (FCFS), Shortest Job First (SJF), and Priority (Non‑Preemptive).
+        </p>
+        <button class="read-more-btn" onclick="toggleReadMore('nonpreemptive-more')">Read More</button>
+        <div class="more-content" id="nonpreemptive-more">
+          <!-- Advantages Accordion -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Advantages</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li>Simpler implementation with minimal overhead.</li>
+                <li>Ensures processes are executed in the order of arrival.</li>
+                <li>Requires fewer system resources compared to preemptive methods.</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Disadvantages Accordion -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Disadvantages</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li>May lead to longer waiting times for short processes.</li>
+                <li>Subject to the "convoy effect," where small tasks wait behind long‑running ones.</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Algorithms Accordion (Nested) -->
+          <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Algorithms</span>
+              <span class="accordion-icon">[+]</span>
+            </div>
+            <div class="accordion-content">
+              <ul>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>First Come First Serve (FCFS)</strong>
+                  <div class="nested-content">
+                    FCFS executes processes in the order they arrive. Its simplicity is advantageous; however, a long‑running process at the start can delay all subsequent processes.
+                  </div>
+                </li>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>Shortest Job First (SJF)</strong>
+                  <div class="nested-content">
+                    SJF selects the process with the shortest execution time next. This minimizes average waiting time but depends on accurately estimating each process's runtime.
+                  </div>
+                </li>
+                <li class="nested-item" onclick="toggleNestedAccordion(event, this)">
+                  <strong>Priority (Non‑Preemptive)</strong>
+                  <div class="nested-content">
+                    In Non‑Preemptive Priority scheduling, processes are executed based on their assigned priority without interruption. This reduces context switching overhead, but if high‑priority tasks are rare, it can lead to inefficient CPU utilization.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section">
+      <video autoplay muted loop playsinline>
+        <source src="Algorithms_page_images/stimulation.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="experience-content">
+        <h2>Experience the Real World Stimulation</h2>
+        <a href="stimulation.html">
+          <button class="get-started-btn">Get Started</button>
+        </a>
+      </div>
+    </section>
+
+    <script src="algorithms.js">
+      // Toggle Read More Section
+    </script>
+  </body>
+</html>
