@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Level 2 - CPU Scheduling (FCFS)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 80px;
+    }
+
+    input[readonly] {
+      background-color: #eee;
+    }
+
+    button {
+      margin: 20px auto;
+      display: block;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Level 2 - Fill Completion & Waiting Time (FCFS)</h1>
+
+  <label for="processCount"><strong>Number of Processes:</strong></label>
+  <input type="number" id="processCount" value="4" min="2" max="10" />
+  <button onclick="createProcessTable()">Generate Table</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>PID</th>
+        <th>Arrival Time (AT)</th>
+        <th>Burst Time (BT)</th>
+        <th>Completion Time (CT)</th>
+        <th>Turnaround Time (TAT)</th>
+        <th>Waiting Time (WT)</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <button onclick="validateAnswers()">Submit Answers</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    let processList = [];
+
+    function createProcessTable() {
+      const count = parseInt(document.getElementById("processCount").value);
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+      processList = [];
+
+      for (let i = 0; i < count; i++) {
+        const at = Math.floor(Math.random() * 6);
+        const bt = Math.floor(Math.random() * 5 + 1);
+        processList.push({ pid: "P" + (i + 1), at, bt });
+      }
+
+      // Sort by arrival time (for FCFS)
+      processList.sort((a, b) => a.at - b.at);
+
+      for (let i = 0; i < count; i++) {
+        const p = processList[i];
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><input type="text" value="${p.pid}" readonly></td>
+          <td><input type="number" value="${p.at}" readonly></td>
+          <td><input type="number" value="${p.bt}" readonly></td>
+          <td><input type="number" placeholder="CT" /></td>
+          <td><input type="number" placeholder="TAT" readonly /></td>
+          <td><input type="number" placeholder="WT" /></td>
+        `;
+        tbody.appendChild(row);
+      }
+    }
+
+    function validateAnswers() {
+      const rows = document.querySelectorAll("#tableBody tr");
+      let time = 0;
+      let score = 0;
+
+      const expected = [];
+
+      // Calculate expected CT, TAT, WT for FCFS
+      for (let i = 0; i < processList.length; i++) {
+        const p = processList[i];
+        if (time < p.at) time = p.at;
+        const ct = time + p.bt;
+        const tat = ct - p.at;
+        const wt = tat - p.bt;
+        expected.push({ ct, tat, wt });
+        time = ct;
+      }
+
+      // Compare with user input
+      for (let i = 0; i < rows.length; i++) {
+        const inputs = rows[i].querySelectorAll("input");
+        const userCT = parseInt(inputs[3].value);
+        const userWT = parseInt(inputs[5].value);
+        const correct = expected[i];
+
+        // Auto-fill correct TAT
+        inputs[4].value = userCT - parseInt(inputs[1].value);
+
+        if (userCT === correct.ct && userWT === correct.wt) {
+          rows[i].style.backgroundColor = "#d4edda"; // green
+          score++;
+        } else {
+          rows[i].style.backgroundColor = "#f8d7da"; // red
+        }
+      }
+
+      document.getElementById("result").innerText = `✅ Your Score: ${score} / ${processList.length}`;
+    }
+  </script>
+
+</body>
+</html>
